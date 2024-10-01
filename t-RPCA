@@ -1,3 +1,5 @@
+#### The RPCA parameters lamp, beta,mu, and ro are to be tuned to obtain optimum results, the error is fixed at 10^-6, which can also be changed as desired.#######
+
 def RPCA_N(H):
     J=np.zeros_like(H)
     #Z=J
