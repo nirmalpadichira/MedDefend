@@ -1,0 +1,78 @@
+##The code is given for single image, you can modify it for the enire dataset by adding loops as required##
+## The noise powers are to be tuned for optimum results#####
+
+image_path = '/content/drive/MyDrive/Melanoma/Melanoma_EfficientNet/BinaryClass/BinaryClassTest/PGD Images/Malignant/5640.jpg'
+input_image = preprocess_image(image_path)
+#### Obtain initial Prediction P_1#########
+label_1=torch.argmax(model(input_image))
+print("Predicted Class P_1:", label_1)
+N1= -- ####minimum noise power to be added
+#############################################################################
+## Add Noise based on entropy
+input_image_1 = input_image.squeeze()
+input_image_1 = np.array(input_image_1)
+input_image_1 = input_image_1.transpose(1,2,0)
+gray_image = cv2.cvtColor(input_image_1, cv2.COLOR_BGR2GRAY)
+plt.imshow(gray_image,cmap='gray')
+plt.show()
+# Calculate entropy of grayscale image
+entropy = calculate_entropy(input_image_1*255)
+if entropy<4:
+    Noise_power=10/255
+elif entropy>=4 and entropy<5:
+    Noise_power=6/255
+elif entropy>=5 and entropy<6:
+    Noise_power=3/255
+else:
+    Noise_power=1/255
+
+#################################################
+##### CAM driven noise addition#############
+
+cam = grad_cam.generate_cam(input_image)
+
+# Convert input image from (1, 3, 256, 256) to (256, 256, 3)
+input_image_for_display = input_image.squeeze().permute(1, 2, 0).cpu().numpy()
+input_image_for_display = (input_image_for_display - np.min(input_image_for_display)) / (np.max(input_image_for_display) - np.min(input_image_for_display))
+
+cam_image = show_cam_on_image(input_image_for_display, cam)
+
+# Generate binary mask
+binary_mask = generate_binary_mask(cam)
+inverted_binary_mask=1-binary_mask
+# Apply binary mask to original image
+masked_image = apply_binary_mask(input_image_for_display, inverted_binary_mask)
+Noised_image= add_gaussian_noise(masked_image,Noise_power)
+masked_image1=apply_binary_mask(input_image_for_display,binary_mask)
+masked_image1=add_gaussian_noise(masked_image1,N1)
+
+Final_image=Noised_image+masked_image1
+# Find the minimum and maximum values
+min_val = np.min(Final_image)
+max_val = np.max(Final_image)
+
+# Apply min-max normalization
+normalized_image = (Final_image - min_val) / (max_val - min_val)
+
+img_np=normalized_image
+### Do RPCA separately for each channel###########
+b, g, r = cv2.split(img_np)
+# Start timer
+start_time = time.time()
+L_b, S_b, W_b = RPCA_N(b)
+L_g, S_g, W_g= RPCA_N(g)
+L_r, S_r, W_r = RPCA_N(r)
+L = cv2.merge((L_b, L_g, L_r))
+S = cv2.merge((S_b, S_g, S_r))
+W = cv2.merge((W_b, W_g, W_r))
+L_in=preprocess_image1(Image.fromarray((L * 255).astype(np.uint8)))
+S_in=preprocess_image1(Image.fromarray((S * 255).astype(np.uint8)))
+W_in=preprocess_image1(Image.fromarray((W * 255).astype(np.uint8)))
+
+###### Obtain Low rank Prediction P_2#############
+label_Lr=torch.argmax(model(L_in))
+print("Predicted Class P_2:", label_Lr)
+# End timer
+end_time = time.time()
+
+********************* Compare P_1 and P_2 to detect the attack*************************************
