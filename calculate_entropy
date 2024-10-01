@@ -1,0 +1,14 @@
+def calculate_entropy(image):
+    # Flatten the image
+    flattened_image = image.flatten()
+
+    # Calculate histogram
+    histogram = np.histogram(flattened_image, bins=256, range=[0,256])[0]
+
+    # Normalize histogram
+    histogram = histogram / float(np.sum(histogram))
+
+    # Calculate entropy
+    entropy = -np.sum(histogram * np.log2(histogram + 1e-10))
+
+    return entropy
