@@ -1,0 +1,21 @@
+def add_gaussian_noise(image, stddev):
+    """
+    Add Gaussian noise to an RGB image.
+
+    Parameters:
+    - image: Input RGB image (numpy array with dtype float32).
+    - stddev: Standard deviation of the Gaussian noise (default: 25).
+
+    Returns:
+    - Noisy image (numpy array with dtype float32).
+    """
+    # Generate Gaussian noise with the same shape as the image for each channel
+    gaussian_noise = np.random.normal(0, stddev, image.shape[:2]).astype(np.float32)
+
+    # Add Gaussian noise to each channel independently
+    noisy_image = np.zeros_like(image, dtype=np.float32)
+    for channel in range(3):  # Loop over each color channel (R, G, B)
+        noisy_channel = image[:, :, channel] + gaussian_noise
+        noisy_image[:, :, channel] = noisy_channel
+
+    return noisy_image
