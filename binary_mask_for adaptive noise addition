@@ -1,0 +1,7 @@
+def generate_binary_mask(cam, threshold=0.5):
+    binary_mask = np.where(cam >= threshold, 1, 0)
+    return binary_mask
+
+def apply_binary_mask(image, binary_mask):
+    masked_image = image * binary_mask[:, :, np.newaxis]
+    return masked_image
