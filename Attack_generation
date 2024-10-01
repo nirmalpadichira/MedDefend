@@ -1,0 +1,26 @@
+##### Attacks are generated using torchattacks package. The attack parameters can be varied to change the attack strength.#############
+
+!pip install torchattacks
+import torchattacks
+# Define the PGD attack parameters
+epsilon = 0.035  # Maximum perturbation
+alpha = epsilon / 10  # Step size
+steps = 80  # Number of steps
+
+# Define the PGD attack
+attack_PGD = torchattacks.PGD(model, eps=epsilon, alpha=alpha, steps=steps)
+
+from torchattacks import CW
+cw_attack = CW(model, c=1e-4, kappa=0, steps=100, lr=0.01)
+
+from torchattacks import DeepFool
+# Define the BIM attack with the desired parameters
+bim_attack = torchattacks.BIM(model, eps=0.1, alpha=0.01, steps=10)
+
+# Initialize the Deep Fool attack
+deep_fool_attack = DeepFool(model, steps=60, overshoot=0.04)
+
+fgsm_attack = torchattacks.FGSM(model, eps=0.3)
+
+### You can generate and save the attacked images corresponding to the original image from the datset, but it requires a lot of storage space. To avoid that, you can generate attack on the 
+go within the main loop and obtain P_1&P_2 corresponding to each attack without saving the generated images######################
