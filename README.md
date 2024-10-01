@@ -24,6 +24,11 @@ If you have any queries, please contact [nirmaljoseph@rit.ac.in](URL)
 * Now we are good to go, the functions for generating CAM, noise addition, RPCA denoising etc. are provided in the repository. Go to the main function and use them sequentially as explained in the paper (refer the algorithm).
 
 ## 🖼️ Sample Images
+Sample images at different stages of noising and denoising of Melanoma datset is given below
+![Alt text](Melanoma_CAM.png)
+
+## Low Rank Image
+![Alt text](Melanoma_original.png)
 
 
 ## 🔬 Experimentation
