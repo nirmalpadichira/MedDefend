@@ -24,7 +24,7 @@ If you have any queries, please contact [nirmaljoseph@rit.ac.in](URL)
 * Now we are good to go, the functions for generating CAM, noise addition, RPCA denoising etc. are provided in the repository. Go to the main function and use them sequentially as explained in the paper (refer the algorithm).
 
 ## 🔬 Experimentation
-You can use other publicly available datasets or your own dataset to experiment with MedDefend with new attack methdologies and data modalities. We believe a well trained model with proper parameter tuning will yield good results in all datasets.
+You can use other publicly available datasets or your own dataset to experiment with MedDefend with new attack methdologies and data modalities. We believe a well trained model with proper parameter tuning will yield good results across all datasets.
 
 
 ## 📃 Citation
