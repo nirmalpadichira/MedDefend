@@ -36,4 +36,17 @@ You can use other publicly available datasets or your own dataset to experiment 
 
 
 ## 📃 Citation
-If you find this repository useful, please consider citing this paper:   **To be added soon!!!**
+If you find this repository useful, please consider citing our paper:
+
+```bibtex
+@ARTICLE{10787010,
+  author={Joseph, Nirmal and George, Sudhish N. and Ameer, P. M. and Raja, Kiran},
+  journal={IEEE Internet of Things Journal}, 
+  title={MedDefend: Securing Medical IoT With Adaptive Noise-Reduction-Based Adversarial Detection}, 
+  year={2025},
+  volume={12},
+  number={8},
+  pages={10808-10817},
+  keywords={Biomedical imaging;Training;Noise;Noise reduction;Internet of Things;Perturbation methods;Feature extraction;X-ray imaging;Computational modeling;Image classification;Adversarial defense;image denoising;low-rank approximation;Medical IoT},
+  doi={10.1109/JIOT.2024.3514194}
+}
